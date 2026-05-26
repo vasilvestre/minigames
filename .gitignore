@@ -1,0 +1,6 @@
+.grepai/
+.node_modules/
+.omo/
+.next/
+.playwright-mcp/
+.vercel
