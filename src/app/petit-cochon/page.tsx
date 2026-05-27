@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Player, PassThePigsGame, GameRecord } from "@/types/game";
-import { saveGame, loadGame, clearGame, saveHistory } from "@/lib/localStorage";
+import { saveGame, loadGame, clearGame } from "@/lib/localStorage";
 import {
   PigPosition,
   POSITIONS,
@@ -15,6 +15,7 @@ import PlayerList from "@/components/PlayerList";
 import ScoreBoard from "@/components/ScoreBoard";
 import Button from "@/components/Button";
 import GameHistory from "@/components/GameHistory";
+import Leaderboard from "@/components/Leaderboard";
 
 const STORAGE_KEY = "pass-the-pigs-game";
 
@@ -138,7 +139,11 @@ export default function PassThePigsPage() {
           winner: result.winner,
           date: new Date().toISOString(),
         };
-        saveHistory(record);
+        fetch("/api/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(record),
+        }).catch((err) => console.error("Failed to save history:", err));
       }
     },
     [players, currentPlayerIndex, turnScore, winner]
@@ -156,13 +161,17 @@ export default function PassThePigsPage() {
 
     if (result.winner) {
       setWinner(result.winner);
-      const record: GameRecord = {
-        gameType: "pass-the-pigs",
-        players: result.players,
-        winner: result.winner,
-        date: new Date().toISOString(),
-      };
-      saveHistory(record);
+        const record: GameRecord = {
+          gameType: "pass-the-pigs",
+          players: result.players,
+          winner: result.winner,
+          date: new Date().toISOString(),
+        };
+        fetch("/api/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(record),
+        }).catch((err) => console.error("Failed to save history:", err));
     }
   }, [players, currentPlayerIndex, turnScore, winner]);
 
@@ -439,6 +448,9 @@ export default function PassThePigsPage() {
 
             {/* Game History */}
             <GameHistory gameType="pass-the-pigs" />
+
+            {/* Leaderboard */}
+            <Leaderboard gameType="pass-the-pigs" />
           </div>
         </div>
       </div>

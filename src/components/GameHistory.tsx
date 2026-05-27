@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { GameRecord } from "@/types/game";
-import { loadHistory } from "@/lib/localStorage";
 import Button from "./Button";
 
 interface GameHistoryProps {
@@ -33,22 +32,32 @@ function formatDate(dateString: string): string {
 export default function GameHistory({ gameType }: GameHistoryProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [history, setHistory] = useState<GameRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const refreshHistory = useCallback(() => {
-    const allHistory = loadHistory();
-    const filtered = gameType
-      ? allHistory.filter((record) => record.gameType === gameType)
-      : allHistory;
-    setHistory(filtered.slice(-10));
+  const refreshHistory = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/history");
+      if (!response.ok) throw new Error("Failed to fetch history");
+      const data = await response.json();
+      const filtered = gameType
+        ? data.filter((record: GameRecord) => record.gameType === gameType)
+        : data;
+      setHistory(filtered.slice(-10));
+    } catch (err) {
+      console.error("Failed to load history:", err);
+    } finally {
+      setIsLoading(false);
+    }
   }, [gameType]);
 
   useEffect(() => {
-    requestAnimationFrame(() => {
+    if (isExpanded) {
       refreshHistory();
-    });
-  }, [refreshHistory]);
+    }
+  }, [isExpanded, refreshHistory]);
 
-  const handleClearHistory = useCallback(() => {
+  const handleClearHistory = useCallback(async () => {
     if (
       !window.confirm(
         "Êtes-vous sûr de vouloir effacer tout l'historique ? Cette action est irréversible."
@@ -57,48 +66,18 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
       return;
     }
 
-    if (typeof window === "undefined") return;
-
     try {
-      localStorage.removeItem("minigames_history");
+      const response = await fetch("/api/history", { method: "DELETE" });
+      if (!response.ok) throw new Error("Failed to clear history");
       setHistory([]);
-    } catch {
-      // Silently fail
+    } catch (err) {
+      console.error("Failed to clear history:", err);
     }
   }, []);
 
   const toggleExpanded = useCallback(() => {
     setIsExpanded((prev) => !prev);
-    if (!isExpanded) {
-      refreshHistory();
-    }
-  }, [isExpanded, refreshHistory]);
-
-  if (history.length === 0 && !isExpanded) {
-    return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-6">
-        <button
-          type="button"
-          onClick={toggleExpanded}
-          className="flex min-h-[44px] w-full items-center justify-between text-left"
-        >
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
-            Historique des parties
-          </h3>
-          <span className="text-zinc-400">
-            {isExpanded ? "−" : "+"}
-          </span>
-        </button>
-        {isExpanded && (
-          <div className="mt-4">
-            <p className="text-sm text-zinc-500">
-              Aucune partie enregistrée.
-            </p>
-          </div>
-        )}
-      </div>
-    );
-  }
+  }, []);
 
   return (
     <div className="rounded-2xl border border-zinc-200 bg-white p-6">
@@ -124,7 +103,9 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
 
       {isExpanded && (
         <div className="mt-4 space-y-3">
-          {history.length === 0 ? (
+          {isLoading ? (
+            <p className="text-sm text-zinc-500">Chargement...</p>
+          ) : history.length === 0 ? (
             <p className="text-sm text-zinc-500">
               Aucune partie enregistrée.
             </p>

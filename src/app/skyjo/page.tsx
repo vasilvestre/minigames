@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Player } from "@/types/game";
-import { saveGame, loadGame, clearGame, saveHistory } from "@/lib/localStorage";
+import { saveGame, loadGame, clearGame } from "@/lib/localStorage";
 import {
   SkyjoRound,
   SkyjoPlayer,
@@ -21,6 +21,7 @@ import PlayerList from "@/components/PlayerList";
 import ScoreBoard from "@/components/ScoreBoard";
 import Button from "@/components/Button";
 import GameHistory from "@/components/GameHistory";
+import Leaderboard from "@/components/Leaderboard";
 
 const SKYJO_STORAGE_KEY = "skyjo_game";
 
@@ -142,12 +143,16 @@ export default function SkyjoPage() {
         score: calculateTotal(rounds, index),
       }));
 
-      saveHistory({
-        gameType: "skyjo",
-        players: updatedPlayers,
-        winner: winnerWithScore,
-        date: new Date().toISOString(),
-      });
+      fetch("/api/history", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          gameType: "skyjo",
+          players: updatedPlayers,
+          winner: winnerWithScore,
+          date: new Date().toISOString(),
+        }),
+      }).catch((err) => console.error("Failed to save history:", err));
     }
   }, [rounds, players]);
 
@@ -421,6 +426,9 @@ export default function SkyjoPage() {
             </div>
 
             <GameHistory gameType="skyjo" />
+
+            {/* Leaderboard */}
+            <Leaderboard gameType="skyjo" />
           </div>
         </div>
       </div>
