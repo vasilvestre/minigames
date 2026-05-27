@@ -21,7 +21,11 @@ export async function POST(request: NextRequest) {
       winner,
     }).returning();
 
-    return NextResponse.json(result[0], { status: 201 });
+    const record = result[0];
+    return NextResponse.json({
+      ...record,
+      date: record.createdAt.toISOString(),
+    }, { status: 201 });
   } catch (error) {
     console.error('Failed to save game history:', error);
     return NextResponse.json(
@@ -34,7 +38,11 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const history = await db.select().from(gameHistory).orderBy(desc(gameHistory.createdAt));
-    return NextResponse.json(history);
+    const formattedHistory = history.map((record) => ({
+      ...record,
+      date: record.createdAt.toISOString(),
+    }));
+    return NextResponse.json(formattedHistory);
   } catch (error) {
     console.error('Failed to load game history:', error);
     return NextResponse.json(
