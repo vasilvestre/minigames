@@ -30,6 +30,7 @@ export default function PassThePigsPage() {
   const [lastSpecial, setLastSpecial] = useState<SpecialRollResult>(null);
   const [lastRoll, setLastRoll] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [displayMode, setDisplayMode] = useState<"names" | "icons">("names");
 
   const saveCurrentState = useCallback(
     (
@@ -231,9 +232,39 @@ export default function PassThePigsPage() {
             <div className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6">
               <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <h2 className="text-base font-semibold text-foreground sm:text-lg">
-                    Tour en cours
-                  </h2>
+                  <div className="flex items-center gap-3">
+                    <h2 className="text-base font-semibold text-foreground sm:text-lg">
+                      Tour en cours
+                    </h2>
+                    <button
+                      type="button"
+                      onClick={() => setDisplayMode((m) => (m === "names" ? "icons" : "names"))}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50"
+                      title={displayMode === "names" ? "Afficher les icônes" : "Afficher les noms"}
+                    >
+                      {displayMode === "names" ? (
+                        <>
+                          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none" />
+                            <path d="M3 15h18" />
+                          </svg>
+                          Icônes
+                        </>
+                      ) : (
+                        <>
+                          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M4 7V4h3" />
+                            <path d="M17 4h3v3" />
+                            <path d="M4 17v3h3" />
+                            <path d="M17 20h3v-3" />
+                            <path d="M8 12h8" />
+                          </svg>
+                          Noms
+                        </>
+                      )}
+                    </button>
+                  </div>
                   {currentPlayer && (
                     <p className="mt-1 text-sm text-zinc-500">
                       C&apos;est au tour de{" "}
@@ -298,10 +329,21 @@ export default function PassThePigsPage() {
                         disabled={!canPlay}
                         className="min-h-[48px] rounded-lg border border-zinc-200 bg-white px-3 py-3 text-sm font-medium text-foreground transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-[44px]"
                       >
-                        <span className="block">{pos.label}</span>
-                        <span className="mt-1 block text-xs text-zinc-500">
-                          {pos.points} pts
-                        </span>
+                        {displayMode === "icons" ? (
+                          <span className="flex flex-col items-center">
+                            <img src={pos.image} alt={pos.label} className="h-12 w-auto object-contain" />
+                            <span className="mt-1 block text-xs text-zinc-500">
+                              {pos.points} pts
+                            </span>
+                          </span>
+                        ) : (
+                          <>
+                            <span className="block">{pos.label}</span>
+                            <span className="mt-1 block text-xs text-zinc-500">
+                              {pos.points} pts
+                            </span>
+                          </>
+                        )}
                       </button>
                     ))}
                   </div>
@@ -320,14 +362,29 @@ export default function PassThePigsPage() {
                         disabled={!canPlay}
                         className="min-h-[48px] rounded-lg border border-red-200 bg-red-50 px-3 py-3 text-sm font-medium text-red-800 transition-colors hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-[44px]"
                       >
-                        <span className="block">{pos.label}</span>
-                        <span className="mt-1 block text-xs text-red-600">
-                          {pos.key === "pigOut"
-                            ? "Perd le tour"
-                            : pos.key === "oinker"
-                            ? "Perd tout"
-                            : "Éliminé"}
-                        </span>
+                        {displayMode === "icons" ? (
+                          <span className="flex flex-col items-center">
+                            <img src={pos.image} alt={pos.label} className="h-12 w-auto object-contain" />
+                            <span className="mt-1 block text-xs text-red-600">
+                              {pos.key === "pigOut"
+                                ? "Perd le tour"
+                                : pos.key === "oinker"
+                                ? "Perd tout"
+                                : "Éliminé"}
+                            </span>
+                          </span>
+                        ) : (
+                          <>
+                            <span className="block">{pos.label}</span>
+                            <span className="mt-1 block text-xs text-red-600">
+                              {pos.key === "pigOut"
+                                ? "Perd le tour"
+                                : pos.key === "oinker"
+                                ? "Perd tout"
+                                : "Éliminé"}
+                            </span>
+                          </>
+                        )}
                       </button>
                     ))}
                   </div>

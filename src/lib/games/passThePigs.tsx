@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Player } from "@/types/game";
 
 export type PigPosition =
@@ -6,10 +7,12 @@ export type PigPosition =
   | "razorback"
   | "snouter"
   | "leaningJowler"
+  | "bajoue"
   | "doubleTrotter"
   | "doubleRazorback"
   | "doubleSnouter"
   | "doubleLeaningJowler"
+  | "doubleBajoue"
   | "pigOut"
   | "oinker"
   | "piggyBack";
@@ -19,21 +22,125 @@ export interface PositionInfo {
   label: string;
   points: number;
   isSpecial: boolean;
+  image: string;
 }
 
+export const POSITION_IMAGES: Record<PigPosition, string> = {
+  sider: "/pigs/sider.png",
+  trotter: "/pigs/trotter.png",
+  razorback: "/pigs/razorback.png",
+  snouter: "/pigs/snouter.png",
+  leaningJowler: "/pigs/leaning-jowler.png",
+  bajoue: "/pigs/leaning-jowler.png",
+  doubleTrotter: "/pigs/double-trotter.png",
+  doubleRazorback: "/pigs/double-razorback.png",
+  doubleSnouter: "/pigs/double-snouter.png",
+  doubleLeaningJowler: "/pigs/double-leaning-jowler.png",
+  doubleBajoue: "/pigs/double-leaning-jowler.png",
+  pigOut: "/pigs/pig-out.png",
+  oinker: "/pigs/oinker.png",
+  piggyBack: "/pigs/piggyback.png",
+};
+
 export const POSITIONS: PositionInfo[] = [
-  { key: "sider", label: "Sur le côté", points: 1, isSpecial: false },
-  { key: "trotter", label: "Pieds", points: 5, isSpecial: false },
-  { key: "razorback", label: "Dos", points: 5, isSpecial: false },
-  { key: "snouter", label: "Groin", points: 10, isSpecial: false },
-  { key: "leaningJowler", label: "Long groin", points: 15, isSpecial: false },
-  { key: "doubleTrotter", label: "Double pieds", points: 20, isSpecial: false },
-  { key: "doubleRazorback", label: "Double dos", points: 20, isSpecial: false },
-  { key: "doubleSnouter", label: "Double groin", points: 40, isSpecial: false },
-  { key: "doubleLeaningJowler", label: "Double long groin", points: 60, isSpecial: false },
-  { key: "pigOut", label: "Cochonnerie", points: 0, isSpecial: true },
-  { key: "oinker", label: "Grogne", points: 0, isSpecial: true },
-  { key: "piggyBack", label: "Dos à dos", points: 0, isSpecial: true },
+  {
+    key: "sider",
+    label: "Sur le côté",
+    points: 1,
+    isSpecial: false,
+    image: POSITION_IMAGES.sider,
+  },
+  {
+    key: "trotter",
+    label: "Trotteur",
+    points: 5,
+    isSpecial: false,
+    image: POSITION_IMAGES.trotter,
+  },
+  {
+    key: "razorback",
+    label: "Tournedos",
+    points: 5,
+    isSpecial: false,
+    image: POSITION_IMAGES.razorback,
+  },
+  {
+    key: "snouter",
+    label: "Groin-groin",
+    points: 10,
+    isSpecial: false,
+    image: POSITION_IMAGES.snouter,
+  },
+  {
+    key: "leaningJowler",
+    label: "Long groin",
+    points: 15,
+    isSpecial: false,
+    image: POSITION_IMAGES.leaningJowler,
+  },
+  {
+    key: "bajoue",
+    label: "Bajoue",
+    points: 15,
+    isSpecial: false,
+    image: POSITION_IMAGES.bajoue,
+  },
+  {
+    key: "doubleTrotter",
+    label: "Double trotteur",
+    points: 20,
+    isSpecial: false,
+    image: POSITION_IMAGES.doubleTrotter,
+  },
+  {
+    key: "doubleRazorback",
+    label: "Double tournedos",
+    points: 20,
+    isSpecial: false,
+    image: POSITION_IMAGES.doubleRazorback,
+  },
+  {
+    key: "doubleSnouter",
+    label: "Double groin-groin",
+    points: 40,
+    isSpecial: false,
+    image: POSITION_IMAGES.doubleSnouter,
+  },
+  {
+    key: "doubleLeaningJowler",
+    label: "Double long groin",
+    points: 60,
+    isSpecial: false,
+    image: POSITION_IMAGES.doubleLeaningJowler,
+  },
+  {
+    key: "doubleBajoue",
+    label: "Double bajoue",
+    points: 20,
+    isSpecial: false,
+    image: POSITION_IMAGES.doubleBajoue,
+  },
+  {
+    key: "pigOut",
+    label: "Cochonnerie",
+    points: 0,
+    isSpecial: true,
+    image: POSITION_IMAGES.pigOut,
+  },
+  {
+    key: "oinker",
+    label: "Grogne",
+    points: 0,
+    isSpecial: true,
+    image: POSITION_IMAGES.oinker,
+  },
+  {
+    key: "piggyBack",
+    label: "Dos à dos",
+    points: 0,
+    isSpecial: true,
+    image: POSITION_IMAGES.piggyBack,
+  },
 ];
 
 export function getPositionInfo(position: PigPosition): PositionInfo | undefined {
@@ -125,17 +232,19 @@ export function getNextPlayerIndex(currentIndex: number, playerCount: number): n
 
 export function rollRandomPosition(): PigPosition {
   const roll = Math.random();
-  if (roll < 0.35) return "sider";
-  if (roll < 0.45) return "trotter";
-  if (roll < 0.70) return "razorback";
-  if (roll < 0.78) return "snouter";
-  if (roll < 0.80) return "leaningJowler";
-  if (roll < 0.85) return "doubleTrotter";
+  if (roll < 0.34) return "sider";
+  if (roll < 0.44) return "trotter";
+  if (roll < 0.68) return "razorback";
+  if (roll < 0.76) return "snouter";
+  if (roll < 0.78) return "leaningJowler";
+  if (roll < 0.82) return "bajoue";
+  if (roll < 0.86) return "doubleTrotter";
   if (roll < 0.90) return "doubleRazorback";
   if (roll < 0.93) return "doubleSnouter";
   if (roll < 0.95) return "doubleLeaningJowler";
-  if (roll < 0.98) return "pigOut";
-  if (roll < 0.99) return "oinker";
+  if (roll < 0.97) return "doubleBajoue";
+  if (roll < 0.985) return "pigOut";
+  if (roll < 0.995) return "oinker";
   return "piggyBack";
 }
 
