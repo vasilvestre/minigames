@@ -1,0 +1,144 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e58] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e59]:
+      - img [ref=e60]
+    - generic [ref=e63]:
+      - button "Open issues overlay" [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e66]: "1"
+          - generic [ref=e67]: "2"
+        - generic [ref=e68]:
+          - text: Issue
+          - generic [ref=e69]: s
+      - button "Collapse issues badge" [ref=e70]:
+        - img [ref=e71]
+  - generic [ref=e73]:
+    - banner [ref=e74]:
+      - generic [ref=e75]:
+        - link "Mini Jeux" [ref=e76] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e77]:
+          - link "Accueil" [ref=e78] [cursor=pointer]:
+            - /url: /
+          - link "Petit Cochon" [ref=e79] [cursor=pointer]:
+            - /url: /petit-cochon
+          - link "Skyjo" [ref=e80] [cursor=pointer]:
+            - /url: /skyjo
+    - main [ref=e81]:
+      - generic [ref=e82]:
+        - generic [ref=e84]:
+          - link "Mini Jeux" [ref=e85] [cursor=pointer]:
+            - /url: /
+          - navigation [ref=e86]:
+            - link "Accueil" [ref=e87] [cursor=pointer]:
+              - /url: /
+            - link "Petit Cochon" [ref=e88] [cursor=pointer]:
+              - /url: /petit-cochon
+            - link "Skyjo" [ref=e89] [cursor=pointer]:
+              - /url: /skyjo
+        - main [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - heading "Skyjo" [level=1] [ref=e93]
+              - paragraph [ref=e94]: Compteur de points
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - generic [ref=e97]:
+                  - heading "Joueurs" [level=2] [ref=e98]
+                  - generic [ref=e99]:
+                    - generic [ref=e100]:
+                      - textbox "Nom du joueur" [ref=e101]
+                      - button "Ajouter" [disabled] [ref=e102]
+                    - list [ref=e103]:
+                      - listitem [ref=e104]:
+                        - generic [ref=e105]:
+                          - generic [ref=e106]: Charlie
+                          - generic [ref=e107]: 15 pts
+                        - button "Retirer Charlie" [ref=e108]:
+                          - img [ref=e109]
+                      - listitem [ref=e111]:
+                        - generic [ref=e112]:
+                          - generic [ref=e113]: Diana
+                          - generic [ref=e114]: 22 pts
+                        - button "Retirer Diana" [ref=e115]:
+                          - img [ref=e116]
+                - button "Nouvelle Partie" [ref=e119]
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - paragraph [ref=e122]: Partie terminée
+                  - paragraph [ref=e123]: Charlie gagne ! 🎉
+                  - paragraph [ref=e124]: "Score total : 15 points"
+                - generic [ref=e125]:
+                  - heading "Manches" [level=3] [ref=e127]
+                  - table [ref=e129]:
+                    - rowgroup [ref=e130]:
+                      - row "Manche Charlie Diana" [ref=e131]:
+                        - columnheader "Manche" [ref=e132]
+                        - columnheader "Charlie" [ref=e133]
+                        - columnheader "Diana" [ref=e134]
+                    - rowgroup [ref=e135]:
+                      - row "1 15 Élim. colonne 22 Élim. colonne" [ref=e136]:
+                        - cell "1" [ref=e137]:
+                          - generic [ref=e139]: "1"
+                        - cell "15 Élim. colonne" [ref=e140]:
+                          - generic [ref=e141]:
+                            - spinbutton [disabled] [ref=e142]: "15"
+                            - button "Élim. colonne" [disabled] [ref=e143]
+                        - cell "22 Élim. colonne" [ref=e144]:
+                          - generic [ref=e145]:
+                            - spinbutton [disabled] [ref=e146]: "22"
+                            - button "Élim. colonne" [disabled] [ref=e147]
+                      - row "2 Élim. colonne Élim. colonne" [ref=e148]:
+                        - cell "2" [ref=e149]:
+                          - generic [ref=e151]: "2"
+                        - cell "Élim. colonne" [ref=e152]:
+                          - generic [ref=e153]:
+                            - spinbutton [disabled] [ref=e154]
+                            - button "Élim. colonne" [disabled] [ref=e155]
+                        - cell "Élim. colonne" [ref=e156]:
+                          - generic [ref=e157]:
+                            - spinbutton [disabled] [ref=e158]
+                            - button "Élim. colonne" [disabled] [ref=e159]
+                    - rowgroup [ref=e160]:
+                      - row "Score total 15 22" [ref=e161]:
+                        - cell "Score total" [ref=e162]
+                        - cell "15" [ref=e163]
+                        - cell "22" [ref=e164]
+                - generic [ref=e165]:
+                  - generic [ref=e166]:
+                    - paragraph [ref=e167]: Gagnant
+                    - paragraph [ref=e168]: Charlie 🎉
+                  - generic [ref=e169]:
+                    - heading "Scores" [level=3] [ref=e171]
+                    - list [ref=e172]:
+                      - listitem [ref=e173]:
+                        - generic [ref=e174]:
+                          - generic [ref=e175]: "1"
+                          - generic [ref=e176]: Diana
+                        - generic [ref=e177]: "22"
+                      - listitem [ref=e178]:
+                        - generic [ref=e179]:
+                          - generic [ref=e180]: "2"
+                          - generic [ref=e181]: Charlie(en cours)
+                        - generic [ref=e182]: "15"
+                - generic [ref=e183]:
+                  - heading "Règles" [level=3] [ref=e184]
+                  - list [ref=e185]:
+                    - listitem [ref=e186]: Entrez le total des cartes de chaque joueur pour chaque manche (valeurs de -2 à 12).
+                    - listitem [ref=e187]:
+                      - strong [ref=e188]: Élimination de colonne
+                      - text: ": si un joueur a 3 cartes identiques dans une colonne, activez le bouton — son score pour cette manche sera de 0."
+                    - listitem [ref=e189]:
+                      - strong [ref=e190]: Doublement
+                      - text: ": le joueur qui révèle toutes ses cartes en premier (finisseur) voit ses points positifs doublés s'il n'a pas le score le plus bas de la manche."
+                    - listitem [ref=e191]: Sélectionnez le finisseur dans le menu déroulant de chaque manche.
+                    - listitem [ref=e192]: La partie se termine quand un joueur atteint 100 points ou plus. Le gagnant est celui avec le score le plus bas.
+                - button "Historique des parties 1 +" [ref=e194]:
+                  - generic [ref=e195]:
+                    - heading "Historique des parties" [level=3] [ref=e196]
+                    - generic [ref=e197]: "1"
+                  - generic [ref=e198]: +
+        - paragraph [ref=e200]: Mini Jeux — Passez un bon moment entre amis
+    - contentinfo [ref=e201]:
+      - paragraph [ref=e202]: Mini Jeux — Passez un bon moment entre amis
+  - alert [ref=e203]

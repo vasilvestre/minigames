@@ -1,0 +1,127 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Mini Jeux" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e6]:
+          - link "Accueil" [ref=e7] [cursor=pointer]:
+            - /url: /
+          - link "Petit Cochon" [ref=e8] [cursor=pointer]:
+            - /url: /petit-cochon
+          - link "Skyjo" [ref=e9] [cursor=pointer]:
+            - /url: /skyjo
+    - main [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e13]:
+          - link "Mini Jeux" [ref=e14] [cursor=pointer]:
+            - /url: /
+          - navigation [ref=e15]:
+            - link "Accueil" [ref=e16] [cursor=pointer]:
+              - /url: /
+            - link "Petit Cochon" [ref=e17] [cursor=pointer]:
+              - /url: /petit-cochon
+            - link "Skyjo" [ref=e18] [cursor=pointer]:
+              - /url: /skyjo
+        - main [ref=e19]:
+          - generic [ref=e20]:
+            - generic [ref=e21]:
+              - heading "Pass the Pigs" [level=1] [ref=e22]
+              - paragraph [ref=e23]: Jeu du Petit Cochon
+            - generic [ref=e24]:
+              - generic [ref=e25]:
+                - generic [ref=e26]:
+                  - heading "Joueurs" [level=2] [ref=e27]
+                  - generic [ref=e28]:
+                    - generic [ref=e29]:
+                      - textbox "Nom du joueur" [ref=e30]
+                      - button "Ajouter" [disabled] [ref=e31]
+                    - list [ref=e122]:
+                      - listitem [ref=e123]:
+                        - generic [ref=e124]:
+                          - generic [ref=e125]: Alice
+                          - generic [ref=e126]: 0 pts
+                        - button "Retirer Alice" [ref=e127]:
+                          - img [ref=e128]
+                - generic [ref=e35]:
+                  - heading "Scores" [level=3] [ref=e37]
+                  - list [ref=e130]:
+                    - listitem [ref=e131]:
+                      - generic [ref=e132]:
+                        - generic [ref=e133]: "1"
+                        - generic [ref=e134]: Alice(en cours)
+                      - generic [ref=e135]: "0"
+              - generic [ref=e40]:
+                - generic [ref=e41]:
+                  - generic [ref=e42]:
+                    - generic [ref=e43]:
+                      - heading "Tour en cours" [level=2] [ref=e44]
+                      - paragraph [ref=e136]: C'est au tour de Alice
+                    - generic [ref=e45]:
+                      - paragraph [ref=e46]: Points du tour
+                      - paragraph [ref=e47]: "0"
+                  - generic [ref=e48]:
+                    - generic [ref=e49]:
+                      - heading "Positions" [level=3] [ref=e50]
+                      - generic [ref=e51]:
+                        - button "Sur le côté 1 pts" [ref=e52]:
+                          - generic [ref=e53]: Sur le côté
+                          - generic [ref=e54]: 1 pts
+                        - button "Pieds 5 pts" [ref=e55]:
+                          - generic [ref=e56]: Pieds
+                          - generic [ref=e57]: 5 pts
+                        - button "Dos 5 pts" [ref=e58]:
+                          - generic [ref=e59]: Dos
+                          - generic [ref=e60]: 5 pts
+                        - button "Groin 10 pts" [ref=e61]:
+                          - generic [ref=e62]: Groin
+                          - generic [ref=e63]: 10 pts
+                        - button "Long groin 15 pts" [ref=e64]:
+                          - generic [ref=e65]: Long groin
+                          - generic [ref=e66]: 15 pts
+                        - button "Double pieds 20 pts" [ref=e67]:
+                          - generic [ref=e68]: Double pieds
+                          - generic [ref=e69]: 20 pts
+                        - button "Double dos 20 pts" [ref=e70]:
+                          - generic [ref=e71]: Double dos
+                          - generic [ref=e72]: 20 pts
+                        - button "Double groin 40 pts" [ref=e73]:
+                          - generic [ref=e74]: Double groin
+                          - generic [ref=e75]: 40 pts
+                        - button "Double long groin 60 pts" [ref=e76]:
+                          - generic [ref=e77]: Double long groin
+                          - generic [ref=e78]: 60 pts
+                    - generic [ref=e79]:
+                      - heading "Événements spéciaux" [level=3] [ref=e80]
+                      - generic [ref=e81]:
+                        - button "Cochonnerie Perd le tour" [ref=e82]:
+                          - generic [ref=e83]: Cochonnerie
+                          - generic [ref=e84]: Perd le tour
+                        - button "Grogne Perd tout" [ref=e85]:
+                          - generic [ref=e86]: Grogne
+                          - generic [ref=e87]: Perd tout
+                        - button "Dos à dos Éliminé" [ref=e88]:
+                          - generic [ref=e89]: Dos à dos
+                          - generic [ref=e90]: Éliminé
+                  - generic [ref=e91]:
+                    - button "Banque" [disabled] [ref=e92]
+                    - button "Passer" [ref=e93]
+                    - button "Nouvelle Partie" [ref=e94]
+                - generic [ref=e95]:
+                  - heading "Règles" [level=3] [ref=e96]
+                  - list [ref=e97]:
+                    - listitem [ref=e98]: Lancez les cochons et accumulez des points selon la position.
+                    - listitem [ref=e99]: Vous pouvez relancer pour accumuler plus de points, mais si vous faites une Cochonnerie, vous perdez les points du tour.
+                    - listitem [ref=e100]: Banque pour sauvegarder vos points du tour dans votre total.
+                    - listitem [ref=e101]: "Grogne : vous perdez tous vos points de la partie."
+                    - listitem [ref=e102]: "Dos à dos : vous êtes éliminé de la partie."
+                    - listitem [ref=e103]: Le premier joueur à atteindre 100 points gagne.
+                - button "Historique des parties +" [ref=e105]:
+                  - heading "Historique des parties" [level=3] [ref=e106]
+                  - generic [ref=e107]: +
+        - paragraph [ref=e109]: Mini Jeux — Passez un bon moment entre amis
+    - contentinfo [ref=e110]:
+      - paragraph [ref=e111]: Mini Jeux — Passez un bon moment entre amis
+  - button "Open Next.js Dev Tools" [ref=e117] [cursor=pointer]:
+    - img [ref=e118]
+  - alert [ref=e121]

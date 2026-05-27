@@ -1,0 +1,92 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e58] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e59]:
+      - img [ref=e60]
+    - generic [ref=e63]:
+      - button "Open issues overlay" [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e66]: "1"
+          - generic [ref=e67]: "2"
+        - generic [ref=e68]:
+          - text: Issue
+          - generic [ref=e69]: s
+      - button "Collapse issues badge" [ref=e70]:
+        - img [ref=e71]
+  - generic [ref=e73]:
+    - banner [ref=e74]:
+      - generic [ref=e75]:
+        - link "Mini Jeux" [ref=e76] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e77]:
+          - link "Accueil" [ref=e78] [cursor=pointer]:
+            - /url: /
+          - link "Petit Cochon" [ref=e79] [cursor=pointer]:
+            - /url: /petit-cochon
+          - link "Skyjo" [ref=e80] [cursor=pointer]:
+            - /url: /skyjo
+    - main [ref=e81]:
+      - generic [ref=e82]:
+        - generic [ref=e84]:
+          - link "Mini Jeux" [ref=e85] [cursor=pointer]:
+            - /url: /
+          - navigation [ref=e86]:
+            - link "Accueil" [ref=e87] [cursor=pointer]:
+              - /url: /
+            - link "Petit Cochon" [ref=e88] [cursor=pointer]:
+              - /url: /petit-cochon
+            - link "Skyjo" [ref=e89] [cursor=pointer]:
+              - /url: /skyjo
+        - main [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - heading "Skyjo" [level=1] [ref=e93]
+              - paragraph [ref=e94]: Compteur de points
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - generic [ref=e97]:
+                  - heading "Joueurs" [level=2] [ref=e98]
+                  - generic [ref=e99]:
+                    - generic [ref=e100]:
+                      - textbox "Nom du joueur" [ref=e101]
+                      - button "Ajouter" [disabled] [ref=e102]
+                    - list [ref=e207]:
+                      - listitem [ref=e208]:
+                        - generic [ref=e209]:
+                          - generic [ref=e210]: Edge2
+                          - generic [ref=e211]: 0 pts
+                        - button "Retirer Edge2" [ref=e212]:
+                          - img [ref=e213]
+                - generic [ref=e118]:
+                  - button "Ajouter une manche" [ref=e215]
+                  - button "Nouvelle Partie" [ref=e216]
+              - generic [ref=e120]:
+                - generic [ref=e218]:
+                  - heading "Scores" [level=3] [ref=e220]
+                  - list [ref=e221]:
+                    - listitem [ref=e222]:
+                      - generic [ref=e223]:
+                        - generic [ref=e224]: "1"
+                        - generic [ref=e225]: Edge2(en cours)
+                      - generic [ref=e226]: "0"
+                - paragraph [ref=e228]: Cliquez sur "Ajouter une manche" pour commencer à noter les scores.
+                - generic [ref=e183]:
+                  - heading "Règles" [level=3] [ref=e184]
+                  - list [ref=e185]:
+                    - listitem [ref=e186]: Entrez le total des cartes de chaque joueur pour chaque manche (valeurs de -2 à 12).
+                    - listitem [ref=e187]:
+                      - strong [ref=e188]: Élimination de colonne
+                      - text: ": si un joueur a 3 cartes identiques dans une colonne, activez le bouton — son score pour cette manche sera de 0."
+                    - listitem [ref=e189]:
+                      - strong [ref=e190]: Doublement
+                      - text: ": le joueur qui révèle toutes ses cartes en premier (finisseur) voit ses points positifs doublés s'il n'a pas le score le plus bas de la manche."
+                    - listitem [ref=e191]: Sélectionnez le finisseur dans le menu déroulant de chaque manche.
+                    - listitem [ref=e192]: La partie se termine quand un joueur atteint 100 points ou plus. Le gagnant est celui avec le score le plus bas.
+                - button "Historique des parties 1 +" [ref=e194]:
+                  - generic [ref=e195]:
+                    - heading "Historique des parties" [level=3] [ref=e196]
+                    - generic [ref=e197]: "1"
+                  - generic [ref=e198]: +
+        - paragraph [ref=e200]: Mini Jeux — Passez un bon moment entre amis
+    - contentinfo [ref=e201]:
+      - paragraph [ref=e202]: Mini Jeux — Passez un bon moment entre amis
+  - alert [ref=e203]
