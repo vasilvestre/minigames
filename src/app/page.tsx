@@ -7,7 +7,7 @@ export default function Home() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
           Mini Jeux
         </h1>
-        <p className="mt-3 text-base text-zinc-600 dark:text-zinc-400 sm:mt-4 sm:text-lg">
+        <p className="mt-3 text-base text-zinc-600 sm:mt-4 sm:text-lg">
           Compteur de points pour vos jeux préférés
         </p>
       </div>
@@ -25,13 +25,13 @@ export default function Home() {
         />
       </div>
 
-      <div className="mt-10 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:mt-16 sm:p-8">
+      <div className="mt-10 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:mt-16 sm:p-8">
         <h2 className="text-lg font-semibold text-foreground sm:text-xl">
           Comment jouer
         </h2>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-sm text-zinc-600">
           Choisissez un jeu ci-dessus pour commencer. Suivez les instructions à
-          l'écran pour ajouter des joueurs, lancer une partie et suivre les
+          l&apos;écran pour ajouter des joueurs, lancer une partie et suivre les
           scores en temps réel.
         </p>
       </div>
@@ -41,7 +41,7 @@ export default function Home() {
           href="https://github.com/vsilvestre/minigames"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-[44px] items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-foreground dark:text-zinc-400 dark:hover:text-zinc-50"
+          className="inline-flex min-h-[44px] items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-foreground"
         >
           <svg
             className="h-5 w-5"

@@ -7,11 +7,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses = {
   primary:
-    "bg-foreground text-background hover:bg-zinc-800 dark:hover:bg-zinc-200",
+    "bg-foreground text-background hover:bg-zinc-800",
   secondary:
-    "border border-zinc-200 bg-white text-foreground hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900",
+    "border border-zinc-200 bg-white text-foreground hover:bg-zinc-50",
   danger:
-    "bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600",
+    "bg-red-600 text-white hover:bg-red-700",
 };
 
 export default function Button({
@@ -28,7 +28,6 @@ export default function Button({
       className={`
         inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium
         transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2
-        dark:focus:ring-zinc-600 dark:focus:ring-offset-0
         disabled:cursor-not-allowed disabled:opacity-50
         ${variantClasses[variant]}
         ${className}

@@ -15,9 +15,8 @@ const GAME_TYPE_LABELS: Record<string, string> = {
 };
 
 const GAME_TYPE_BADGE_COLORS: Record<string, string> = {
-  "pass-the-pigs":
-    "bg-amber-100 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400",
-  skyjo: "bg-blue-100 text-blue-800 dark:bg-blue-950/30 dark:text-blue-400",
+  "pass-the-pigs": "bg-amber-100 text-amber-800",
+  skyjo: "bg-blue-100 text-blue-800",
 };
 
 function formatDate(dateString: string): string {
@@ -40,12 +39,13 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
     const filtered = gameType
       ? allHistory.filter((record) => record.gameType === gameType)
       : allHistory;
-    // Last 10 games (most recent last)
     setHistory(filtered.slice(-10));
   }, [gameType]);
 
   useEffect(() => {
-    refreshHistory();
+    requestAnimationFrame(() => {
+      refreshHistory();
+    });
   }, [refreshHistory]);
 
   const handleClearHistory = useCallback(() => {
@@ -76,22 +76,22 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
 
   if (history.length === 0 && !isExpanded) {
     return (
-      <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6">
         <button
           type="button"
           onClick={toggleExpanded}
           className="flex min-h-[44px] w-full items-center justify-between text-left"
         >
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
             Historique des parties
           </h3>
-          <span className="text-zinc-400 dark:text-zinc-500">
+          <span className="text-zinc-400">
             {isExpanded ? "−" : "+"}
           </span>
         </button>
         {isExpanded && (
           <div className="mt-4">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-zinc-500">
               Aucune partie enregistrée.
             </p>
           </div>
@@ -101,23 +101,23 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6">
       <button
         type="button"
         onClick={toggleExpanded}
         className="flex min-h-[44px] w-full items-center justify-between text-left"
       >
         <div className="flex items-center gap-3">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
             Historique des parties
           </h3>
           {history.length > 0 && (
-            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">
               {history.length}
             </span>
           )}
         </div>
-        <span className="text-lg text-zinc-400 dark:text-zinc-500">
+        <span className="text-lg text-zinc-400">
           {isExpanded ? "−" : "+"}
         </span>
       </button>
@@ -125,7 +125,7 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
       {isExpanded && (
         <div className="mt-4 space-y-3">
           {history.length === 0 ? (
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-zinc-500">
               Aucune partie enregistrée.
             </p>
           ) : (
@@ -134,30 +134,30 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
                 {history.map((record, index) => (
                   <div
                     key={index}
-                    className="rounded-lg border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/50"
+                    className="rounded-lg border border-zinc-100 bg-zinc-50 p-3"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span
                           className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                             GAME_TYPE_BADGE_COLORS[record.gameType] ??
-                            "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
+                            "bg-zinc-100 text-zinc-800"
                           }`}
                         >
                           {GAME_TYPE_LABELS[record.gameType] ?? record.gameType}
                         </span>
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="text-xs text-zinc-500">
                           {formatDate(record.date)}
                         </span>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
+                        <span className="text-xs font-medium text-zinc-600">
                           Gagnant :{" "}
                         </span>
                         <span className="text-sm font-semibold text-foreground">
                           {record.winner.name}
                         </span>
-                        <span className="ml-1 text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="ml-1 text-xs text-zinc-500">
                           ({record.winner.score} pts)
                         </span>
                       </div>
@@ -168,8 +168,8 @@ export default function GameHistory({ gameType }: GameHistoryProps) {
                           key={player.id}
                           className={`rounded-md px-2 py-0.5 text-xs ${
                             player.id === record.winner.id
-                              ? "bg-zinc-900 font-medium text-white dark:bg-zinc-100 dark:text-black"
-                              : "bg-white text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                              ? "bg-zinc-900 font-medium text-white"
+                              : "bg-white text-zinc-600"
                           }`}
                         >
                           {player.name}: {player.score}

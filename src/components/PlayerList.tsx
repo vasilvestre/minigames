@@ -40,7 +40,7 @@ export default function PlayerList({
           onChange={(e) => setNewPlayerName(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Nom du joueur"
-          className="flex-1 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-foreground placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:placeholder:text-zinc-600"
+          className="flex-1 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-foreground placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
         />
         <Button onClick={handleAdd} disabled={!newPlayerName.trim()}>
           Ajouter
@@ -48,7 +48,7 @@ export default function PlayerList({
       </div>
 
       {players.length === 0 ? (
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm text-zinc-500">
           Aucun joueur. Ajoutez-en pour commencer !
         </p>
       ) : (
@@ -56,20 +56,20 @@ export default function PlayerList({
           {players.map((player) => (
             <li
               key={player.id}
-              className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-950"
+              className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-3"
             >
               <div className="flex items-center gap-3">
                 <span className="text-sm font-medium text-foreground">
                   {player.name}
                 </span>
-                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600">
                   {player.score} pts
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => onRemovePlayer(player.id)}
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950 dark:hover:text-red-400"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-600"
                 aria-label={`Retirer ${player.name}`}
               >
                 <svg
