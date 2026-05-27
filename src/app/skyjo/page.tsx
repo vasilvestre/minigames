@@ -10,7 +10,6 @@ import {
   calculateRoundScore,
   checkElimination,
   checkWinCondition,
-  getRankings,
   generateId,
   createEmptyRound,
   addPlayerToRounds,
@@ -18,7 +17,6 @@ import {
   toggleColumnElimination,
   setRoundFinisher,
 } from "@/lib/games/skyjo";
-import Layout from "@/components/Layout";
 import PlayerList from "@/components/PlayerList";
 import ScoreBoard from "@/components/ScoreBoard";
 import Button from "@/components/Button";
@@ -40,19 +38,21 @@ export default function SkyjoPage() {
   const [winner, setWinner] = useState<Player | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load from localStorage on mount
   useEffect(() => {
     const saved = loadGame<SkyjoGameData>(SKYJO_STORAGE_KEY);
     if (saved) {
-      setPlayers(saved.players || []);
-      setRounds(saved.rounds || []);
-      setGameEnded(saved.gameEnded || false);
-      setWinner(saved.winner || null);
+      requestAnimationFrame(() => {
+        setPlayers(saved.players || []);
+        setRounds(saved.rounds || []);
+        setGameEnded(saved.gameEnded || false);
+        setWinner(saved.winner || null);
+      });
     }
-    setIsLoaded(true);
+    requestAnimationFrame(() => {
+      setIsLoaded(true);
+    });
   }, []);
 
-  // Auto-save to localStorage on state changes
   useEffect(() => {
     if (!isLoaded) return;
     const gameData: SkyjoGameData = {
@@ -79,7 +79,6 @@ export default function SkyjoPage() {
       if (index === -1) return prev;
       const updated = prev.filter((p) => p.id !== id);
 
-      // Remove player's scores from all rounds
       setRounds((prevRounds) => removePlayerFromRounds(prevRounds, index));
 
       return updated;
@@ -137,7 +136,6 @@ export default function SkyjoPage() {
       setWinner(winnerWithScore);
       setGameEnded(true);
 
-      // Save to history
       const updatedPlayers = players.map((player, index) => ({
         id: player.id,
         name: player.name,
@@ -161,44 +159,40 @@ export default function SkyjoPage() {
     clearGame(SKYJO_STORAGE_KEY);
   }, []);
 
-  // Check for elimination (100+ points) after each round update
   useEffect(() => {
     if (gameEnded || rounds.length === 0 || players.length === 0) return;
 
     const shouldEnd = checkElimination(rounds, players.length);
     if (shouldEnd) {
-      handleEndGame();
+      requestAnimationFrame(() => {
+        handleEndGame();
+      });
     }
   }, [rounds, players.length, gameEnded, handleEndGame]);
 
-  // Update player scores for display
   const playersWithTotals = players.map((player, index) => ({
     id: player.id,
     name: player.name,
     score: calculateTotal(rounds, index),
   }));
 
-  const rankings = getRankings(rounds, players);
-
   const canEndGame = rounds.length > 0 && players.length > 0 && !gameEnded;
   const canAddRound = players.length > 0 && !gameEnded;
 
   return (
-    <Layout>
-      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8 lg:py-12">
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8 lg:py-12">
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
             Skyjo
           </h1>
-          <p className="mt-2 text-base text-zinc-600 dark:text-zinc-400 sm:text-lg">
+          <p className="mt-2 text-base text-zinc-600 sm:text-lg">
             Compteur de points
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* Left column - Player management */}
-          <div className="lg:col-span-1 space-y-4 sm:space-y-6">
-            <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950 sm:p-6">
+            <div className="lg:col-span-1 space-y-4 sm:space-y-6">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6">
               <h2 className="text-base font-semibold text-foreground mb-3 sm:text-lg sm:mb-4">
                 Joueurs
               </h2>
@@ -209,7 +203,6 @@ export default function SkyjoPage() {
               />
             </div>
 
-            {/* Game controls */}
             <div className="space-y-3">
               {canAddRound && (
                 <Button onClick={handleAddRound} className="w-full">
@@ -239,28 +232,25 @@ export default function SkyjoPage() {
             </div>
           </div>
 
-          {/* Right column - Scoring */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-            {/* Game end announcement */}
             {gameEnded && winner && (
-              <div className="rounded-2xl bg-zinc-900 px-4 py-6 text-center dark:bg-zinc-100 sm:px-6 sm:py-8">
-                <p className="text-sm font-medium text-zinc-300 dark:text-zinc-700 uppercase tracking-wider">
+              <div className="rounded-2xl bg-zinc-900 px-4 py-6 text-center sm:px-6 sm:py-8">
+                <p className="text-sm font-medium text-zinc-300 uppercase tracking-wider">
                   Partie terminée
                 </p>
-                <p className="mt-2 text-2xl font-bold text-white dark:text-black sm:text-3xl">
+                <p className="mt-2 text-2xl font-bold text-white sm:text-3xl">
                   {winner.name} gagne ! 🎉
                 </p>
-                <p className="mt-2 text-sm text-zinc-400 dark:text-zinc-600">
+                <p className="mt-2 text-sm text-zinc-400">
                   Score total : {calculateTotal(rounds, players.findIndex((p) => p.id === winner.id))} points
                 </p>
               </div>
             )}
 
-            {/* Rounds table */}
             {rounds.length > 0 && (
-              <div className="rounded-2xl border border-zinc-200 bg-white overflow-hidden dark:border-zinc-800 dark:bg-zinc-950">
-                <div className="px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 sm:px-6 sm:py-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              <div className="rounded-2xl border border-zinc-200 bg-white overflow-hidden">
+                <div className="px-4 py-3 border-b border-zinc-200 sm:px-6 sm:py-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
                     Manches
                   </h3>
                 </div>
@@ -268,27 +258,26 @@ export default function SkyjoPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-zinc-100 dark:border-zinc-800">
-                        <th className="px-3 py-2 text-left text-xs font-medium text-zinc-500 dark:text-zinc-400 sm:px-4 sm:py-3">
+                      <tr className="border-b border-zinc-100">
+                        <th className="px-3 py-2 text-left text-xs font-medium text-zinc-500 sm:px-4 sm:py-3">
                           Manche
                         </th>
                         {players.map((player) => (
                           <th
                             key={player.id}
-                            className="px-3 py-2 text-center text-xs font-medium text-zinc-500 dark:text-zinc-400 sm:px-4 sm:py-3"
+                            className="px-3 py-2 text-center text-xs font-medium text-zinc-500 sm:px-4 sm:py-3"
                           >
                             {player.name}
                           </th>
                         ))}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <tbody className="divide-y divide-zinc-100">
                       {rounds.map((round, roundIndex) => (
                         <tr key={round.roundNumber}>
-                          <td className="px-3 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 sm:px-4 sm:py-3">
+                          <td className="px-3 py-2 text-sm font-medium text-zinc-700 sm:px-4 sm:py-3">
                             <div className="flex flex-col gap-1">
                               <span>{round.roundNumber}</span>
-                              {/* Finisher selection */}
                               {!gameEnded && (
                                 <select
                                   value={round.finisherIndex ?? ""}
@@ -298,7 +287,7 @@ export default function SkyjoPage() {
                                       e.target.value === "" ? null : parseInt(e.target.value, 10)
                                     )
                                   }
-                                  className="min-h-[44px] text-xs rounded border border-zinc-200 bg-white px-2 py-1 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400"
+                                  className="min-h-[44px] text-xs rounded border border-zinc-200 bg-white px-2 py-1 text-zinc-600"
                                 >
                                   <option value="">Finisseur</option>
                                   {players.map((p, i) => (
@@ -309,7 +298,7 @@ export default function SkyjoPage() {
                                 </select>
                               )}
                               {gameEnded && round.finisherIndex !== null && (
-                                <span className="text-xs text-zinc-500 dark:text-zinc-500">
+                                <span className="text-xs text-zinc-500">
                                   Fini par : {players[round.finisherIndex]?.name}
                                 </span>
                               )}
@@ -334,10 +323,9 @@ export default function SkyjoPage() {
                                       )
                                     }
                                     disabled={gameEnded || isEliminated}
-                                    className="min-h-[44px] w-16 rounded-lg border border-zinc-200 bg-white px-2 py-2 text-center text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 sm:w-20 sm:px-3"
+                                    className="min-h-[44px] w-16 rounded-lg border border-zinc-200 bg-white px-2 py-2 text-center text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-zinc-400 disabled:opacity-50 disabled:cursor-not-allowed sm:w-20 sm:px-3"
                                     placeholder="0"
                                   />
-                                  {/* Column elimination toggle */}
                                   <button
                                     type="button"
                                     onClick={() =>
@@ -346,16 +334,15 @@ export default function SkyjoPage() {
                                     disabled={gameEnded}
                                     className={`min-h-[44px] min-w-[44px] text-xs px-2 py-1 rounded transition-colors ${
                                       isEliminated
-                                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                                        : "bg-zinc-100 text-zinc-500 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-zinc-100 text-zinc-500 hover:bg-zinc-200"
                                     } disabled:opacity-50 disabled:cursor-not-allowed`}
                                     title="Élimination de colonne (3 cartes identiques)"
                                   >
                                     {isEliminated ? "Colonne éliminée" : "Élim. colonne"}
                                   </button>
-                                  {/* Show doubled indicator */}
                                   {isDoubled && (
-                                    <span className="text-xs text-amber-600 dark:text-amber-400 font-medium">
+                                    <span className="text-xs text-amber-600 font-medium">
                                       Doublé: {displayScore}
                                     </span>
                                   )}
@@ -366,7 +353,7 @@ export default function SkyjoPage() {
                         </tr>
                       ))}
                     </tbody>
-                    <tfoot className="border-t-2 border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
+                    <tfoot className="border-t-2 border-zinc-200 bg-zinc-50">
                       <tr>
                         <td className="px-3 py-2 text-sm font-bold text-foreground sm:px-4 sm:py-3">
                           Score total
@@ -386,7 +373,6 @@ export default function SkyjoPage() {
               </div>
             )}
 
-            {/* ScoreBoard component */}
             {players.length > 0 && (
               <ScoreBoard
                 players={playersWithTotals}
@@ -395,30 +381,27 @@ export default function SkyjoPage() {
               />
             )}
 
-            {/* Empty state */}
             {players.length === 0 && (
-              <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-8 text-center dark:border-zinc-800 dark:bg-zinc-950 sm:px-6 sm:py-12">
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-8 text-center sm:px-6 sm:py-12">
+                <p className="text-sm text-zinc-500">
                   Ajoutez des joueurs pour commencer une partie de Skyjo !
                 </p>
               </div>
             )}
 
-            {/* No rounds yet */}
             {players.length > 0 && rounds.length === 0 && !gameEnded && (
-              <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-8 text-center dark:border-zinc-800 dark:bg-zinc-950 sm:px-6 sm:py-12">
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              <div className="rounded-2xl border border-zinc-200 bg-white px-4 py-8 text-center sm:px-6 sm:py-12">
+                <p className="text-sm text-zinc-500">
                   Cliquez sur &quot;Ajouter une manche&quot; pour commencer à noter les scores.
                 </p>
               </div>
             )}
 
-            {/* Rules reminder */}
-            <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950 sm:p-6">
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-500">
                 Règles
               </h3>
-              <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <ul className="space-y-2 text-sm text-zinc-600">
                 <li>
                   Entrez le total des cartes de chaque joueur pour chaque manche (valeurs de -2 à 12).
                 </li>
@@ -437,11 +420,9 @@ export default function SkyjoPage() {
               </ul>
             </div>
 
-            {/* Game History */}
             <GameHistory gameType="skyjo" />
           </div>
         </div>
       </div>
-    </Layout>
   );
 }
